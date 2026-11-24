@@ -78,6 +78,20 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;   /* stop iOS enlarging text in landscape */
+  text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Keep section headings visible below the sticky nav when jumping to #links */
+[id] {
+  scroll-margin-top: 80px;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -167,7 +181,9 @@ nav.top {
 body::before {
   content: "";
   position: fixed;
-  inset: 0 0 auto;
+  top: 0;
+  left: 0;
+  right: 0;
   height: env(safe-area-inset-top, 0px);
   z-index: 21;
   background: var(--night);
@@ -209,9 +225,37 @@ nav.top .wrap {
   color: #fff;
 }
 
+/* Hamburger button (shown on tablets and phones only) */
+.menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.menu-btn span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: #F6F7FB;
+  transition: transform .2s, opacity .2s;
+}
+
+.menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 /* ---------- Hero ---------- */
 
 .hero {
+  overflow: hidden;   /* floating chips must never cause sideways scrolling */
   padding-block: 56px 80px;
   background: radial-gradient(900px 600px at 78% 30%, var(--night-2) 0%, var(--night) 65%);
   color: #F6F7FB;
@@ -703,7 +747,7 @@ nav.top .wrap {
 
 .outputs {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
   gap: 16px;
   margin-top: 32px;
 }
@@ -725,8 +769,8 @@ nav.top .wrap {
   width: 100%;
   margin-bottom: 4px;
   overflow: hidden;
+  height: 170px;
   border-radius: 12px;
-  aspect-ratio: 16 / 10;
   background: var(--brand-soft);
 }
 
@@ -1008,7 +1052,13 @@ details p {
   font-weight: 700;
 }
 
+#email {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .mail button {
+  flex: none;
   padding: 8px 12px;
   border: 0;
   border-radius: 9px;
@@ -1051,8 +1101,47 @@ footer .wrap {
     grid-column: span 2;
   }
 
+  /* Collapsible menu */
+  .menu-btn {
+    display: flex;
+  }
+
   .links {
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 4px max(16px, env(safe-area-inset-left, 0px)) 12px;
+    border-top: 1px solid rgba(255, 255, 255, .12);
+    background: var(--night);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, .3);
+  }
+
+  .links.open {
+    display: flex;
+  }
+
+  .links a {
+    padding: 12px 0;
+    font-size: 17px;
+  }
+
+  /* Admin page keeps its single link visible */
+  .links.always {
+    display: flex;
+    position: static;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .links.always a {
+    padding: 0;
+    font-size: 15px;
   }
 }
 
@@ -1072,6 +1161,220 @@ footer .wrap {
     grid-column: auto;
   }
 
-  .c1 { left: -4px; }
+  .c1 { left: -4px; top: 3%; }
   .c2 { right: -4px; }
+
+  .contact,
+  .panel {
+    padding: 24px 20px;
+  }
+
+  .mail {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Very small phones (e.g. iPhone SE 1st gen, small Androids) */
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .chip {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .stat b {
+    font-size: 44px;
+  }
+}
+
+/* ==========================================================================
+   Animations
+   (All of them are switched off for people who ask their device for
+   reduced motion; see the block at the very end.)
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes phone-in {
+  from { opacity: 0; transform: translateY(48px) rotate(-4deg); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fill-bar {
+  from { width: 0; }
+}
+
+@keyframes pulse-day {
+  0%   { box-shadow: 0 0 0 0 rgba(79, 70, 229, .55); }
+  70%  { box-shadow: 0 0 0 7px rgba(79, 70, 229, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Hero intro (pure CSS, runs on page load) ---------- */
+
+.hero .wrap > div:first-child > * {
+  animation: rise .7s cubic-bezier(.2, .7, .2, 1) backwards;
+}
+
+.hero .wrap > div:first-child > :nth-child(2) { animation-delay: .08s; }
+.hero .wrap > div:first-child > :nth-child(3) { animation-delay: .16s; }
+.hero .wrap > div:first-child > :nth-child(4) { animation-delay: .24s; }
+.hero .wrap > div:first-child > :nth-child(5) { animation-delay: .32s; }
+
+.phone {
+  animation: phone-in .9s .2s cubic-bezier(.2, .7, .2, 1) backwards;
+}
+
+/* Chips fade in after the phone, then keep bobbing */
+.chip {
+  animation: fade-in .6s ease backwards, bob 5s ease-in-out infinite;
+}
+
+.c1 { animation-delay: .9s, 0s; }
+.c2 { animation-delay: 1.05s, -2s; }
+.c3 { animation-delay: 1.2s, -3.5s; }
+
+.mini .trk i {
+  animation: fill-bar 1.2s 1s cubic-bezier(.2, .7, .2, 1) backwards;
+}
+
+.calmini span.s {
+  animation: pulse-day 2.4s 1.5s ease-out infinite;
+}
+
+/* ---------- Scroll reveal (classes added by script.js) ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Output cards loaded from the database rise in one after another */
+.output {
+  animation: rise .5s cubic-bezier(.2, .7, .2, 1) backwards;
+}
+
+/* ---------- Hover and press feedback ---------- */
+
+.btn {
+  transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+}
+
+.f,
+.stat,
+.plan,
+.m,
+.output {
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.f .ic {
+  transition: transform .3s cubic-bezier(.3, 1.6, .5, 1);
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .18);
+  }
+
+  .f:hover,
+  .stat:hover,
+  .plan:hover,
+  .m:hover,
+  .output:hover {
+    transform: translateY(-4px);
+    border-color: var(--brand);
+    box-shadow: 0 18px 40px rgba(18, 22, 51, .14);
+  }
+
+  .f.big:hover {
+    border-color: transparent;
+  }
+
+  .f:hover .ic {
+    transform: scale(1.12) rotate(-6deg);
+  }
+
+  .links a {
+    transition: color .2s ease;
+  }
+}
+
+.btn:active {
+  transform: translateY(0) scale(.97);
+}
+
+summary {
+  transition: color .2s ease;
+}
+
+summary:hover {
+  color: var(--brand);
+}
+
+details[open] p {
+  animation: rise .35s ease backwards;
+}
+
+/* ---------- Navigation ---------- */
+
+nav.top {
+  transition: box-shadow .3s ease;
+}
+
+nav.top.scrolled {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+}
+
+.links.open {
+  animation: menu-in .2s ease;
+}
+
+/* ---------- Reduced motion: switch everything off ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

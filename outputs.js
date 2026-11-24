@@ -180,6 +180,7 @@
   // Builds one output card. Uses textContent everywhere so entered text can't inject HTML.
   function createCard(item, number) {
     var card = el('article', 'output');
+    card.style.animationDelay = Math.min(number - 1, 8) * 70 + 'ms';   // cards appear one after another
     var ext = fileExtension(item.file_name);
     var viewable = ext === 'pdf' || IMAGE_EXT.indexOf(ext) !== -1;
 
@@ -226,8 +227,14 @@
   var list = document.getElementById('outputs-list');
   if (!list) return;
 
+  // Works on older phones that lack element.replaceChildren().
+  function setChildren(parent, nodes) {
+    while (parent.firstChild) parent.removeChild(parent.firstChild);
+    nodes.forEach(function (node) { parent.appendChild(node); });
+  }
+
   function showMessage(text) {
-    list.replaceChildren(el('p', 'outputs-empty', text));
+    setChildren(list, [el('p', 'outputs-empty', text)]);
   }
 
   if (store.mode === 'local') {
@@ -241,7 +248,7 @@
         showMessage('No outputs yet. Group members can add them from the Group login page.');
         return;
       }
-      list.replaceChildren.apply(list, items.map(function (item, i) {
+      setChildren(list, items.map(function (item, i) {
         return createCard(item, i + 1);
       }));
     })

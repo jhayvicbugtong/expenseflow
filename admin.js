@@ -123,7 +123,7 @@
 
     try {
       var items = await store.list();
-      list.replaceChildren();
+      list.innerHTML = '';
       setMessage('list-msg', items.length ? '' : 'No outputs yet. Add your first one above.');
 
       items.forEach(function (item, i) {

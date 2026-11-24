@@ -77,7 +77,7 @@ create policy "Admins can delete output files"
 -- 6. Add your group members' emails here (lowercase), then run the script.
 --    You can run just this part again later to add more people.
 insert into public.admins (email) values
-  ('member1@example.com'),
-  ('member2@example.com'),
-  ('member3@example.com')
+  ('22-15952@g.batstate-u.edu.ph'),
+  ('23-75760@g.batstate-u.edu.ph'),
+  ('23-73105@g.batstate-u.edu.ph')
 on conflict (email) do nothing;
