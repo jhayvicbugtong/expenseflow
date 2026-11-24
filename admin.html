@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>Manage Class Outputs · ExpenseFlow</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="top">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <svg width="34" height="34" viewBox="0 0 120 120" aria-hidden="true">
+          <rect width="120" height="120" rx="35" fill="#4F46E5"/>
+          <g transform="translate(22.7 22.7) scale(1.1667)">
+            <path d="M14 18h30M14 32h20M14 46h30" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <path d="M38 32c3 0 4-4 7-4" stroke="#A5B4FC" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <circle cx="48" cy="27" r="5" fill="#22C55E"/>
+          </g>
+        </svg>
+        ExpenseFlow
+      </a>
+      <div class="links">
+        <a href="index.html#outputs">← Back to website</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="admin">
+    <div class="wrap">
+      <div class="eyebrow">Group members only</div>
+      <h1 class="section-title">Manage Class Outputs</h1>
+
+      <!-- Login -->
+      <form id="login-form" class="panel form" hidden>
+        <h2>Log in</h2>
+        <label>Email
+          <input id="login-email" type="email" autocomplete="username" required>
+        </label>
+        <label>Password
+          <input id="login-password" type="password" autocomplete="current-password" required>
+        </label>
+        <button class="btn primary" type="submit">Log in</button>
+        <p id="login-msg" class="form-msg" role="status"></p>
+      </form>
+
+      <!-- Logged in, but not on the group list -->
+      <div id="view-denied" class="panel" hidden>
+        <h2>No access</h2>
+        <p><b id="denied-email"></b> is not on the group member list. Ask a groupmate to add your email in Supabase.</p>
+        <button class="btn outline" type="button" data-signout>Log out</button>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="view-dashboard" hidden>
+        <div id="local-notice" class="notice" hidden>
+          <b>Local mode.</b> Outputs are saved in this browser only, so other people and other
+          browsers won't see them. Connect Supabase (see <code>SETUP.md</code>) to put them online.
+        </div>
+
+        <p id="signed-in" class="signed-in">Logged in as <b id="signed-in-as"></b> · <button class="link-btn" type="button" data-signout>Log out</button></p>
+
+        <form id="add-form" class="panel form">
+          <h2>Add an output</h2>
+          <label>Title *
+            <input id="add-title" type="text" maxlength="120" required placeholder="e.g. Business Model Canvas">
+          </label>
+          <label>Date
+            <input id="add-date" type="date">
+          </label>
+          <label>Description
+            <textarea id="add-description" rows="3" maxlength="600" placeholder="One or two sentences about this activity."></textarea>
+          </label>
+          <label>File (PDF, image, or Office file, up to 50 MB)
+            <input id="add-file" type="file" accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.pptx,.docx,.xlsx">
+          </label>
+          <button class="btn primary" type="submit">Add output</button>
+          <p id="add-msg" class="form-msg" role="status"></p>
+        </form>
+
+        <h2 class="admin-subtitle">Current outputs</h2>
+        <p id="list-msg" class="form-msg" role="status"></p>
+        <div id="admin-list" class="outputs"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="outputs.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

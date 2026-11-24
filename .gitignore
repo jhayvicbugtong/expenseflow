@@ -1,0 +1,8 @@
+# Editor / OS files
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local secrets (config.js holds only the public Supabase key, so it IS committed)
+.env
