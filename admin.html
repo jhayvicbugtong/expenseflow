@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -58,6 +58,12 @@
         <button class="btn outline" type="button" data-signout>Log out</button>
       </div>
 
+      <!-- Live site, but the database connection is missing -->
+      <div id="view-offline" class="panel" hidden>
+        <h2>Can’t connect right now</h2>
+        <p>The login service didn’t load. Refresh the page (Ctrl+F5). If it keeps happening, check that <code>config.js</code> on the server has the Supabase URL and key.</p>
+      </div>
+
       <!-- Dashboard -->
       <div id="view-dashboard" hidden>
         <div id="local-notice" class="notice" hidden>
@@ -93,8 +99,8 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js?v=3"></script>
-  <script src="outputs.js?v=3"></script>
-  <script src="admin.js?v=3"></script>
+  <script src="config.js?v=4"></script>
+  <script src="outputs.js?v=4"></script>
+  <script src="admin.js?v=4"></script>
 </body>
 </html>

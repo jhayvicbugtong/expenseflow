@@ -215,7 +215,11 @@
     return card;
   }
 
-  var store = useSupabase ? createSupabaseStore() : createLocalStore();
+  // Local mode is only for testing on your own computer. On the live website a
+  // missing Supabase connection is an error (store = null), never an open dashboard.
+  var isLocalTest = location.protocol === 'file:' ||
+    /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+  var store = useSupabase ? createSupabaseStore() : (isLocalTest ? createLocalStore() : null);
 
   window.EFOutputs = {
     store: store,
@@ -235,6 +239,11 @@
 
   function showMessage(text) {
     setChildren(list, [el('p', 'outputs-empty', text)]);
+  }
+
+  if (!store) {
+    showMessage('Could not load class outputs right now. Please try again later.');
+    return;
   }
 
   if (store.mode === 'local') {

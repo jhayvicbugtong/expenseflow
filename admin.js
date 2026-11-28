@@ -10,7 +10,7 @@
     return document.getElementById(id);
   }
 
-  var views = ['login-form', 'view-denied', 'view-dashboard'];
+  var views = ['login-form', 'view-denied', 'view-dashboard', 'view-offline'];
   function show(viewId) {
     views.forEach(function (id) {
       $(id).hidden = id !== viewId;
@@ -26,6 +26,12 @@
   // ---------- Session (Supabase mode only) ----------
 
   async function refreshSession() {
+    // Live site without a working Supabase connection: never open the dashboard.
+    if (!store) {
+      show('view-offline');
+      return;
+    }
+
     if (store.mode === 'local') {
       $('local-notice').hidden = false;
       $('signed-in').hidden = true;
