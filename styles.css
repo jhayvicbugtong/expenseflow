@@ -397,47 +397,58 @@ nav.top .wrap {
   font-size: 12px;
 }
 
-.mini .trk {
-  height: 6px;
-  margin: 6px 0;
-  border-radius: 9px;
-  background: #EEF0F6;
+.wallets {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.mini .trk i {
-  display: block;
-  width: 43%;
-  height: 100%;
+.wallets li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: #F1F3F9;
+  font-size: 11px;
+}
+
+/* Payday split bar (50/30/20) */
+.split {
+  display: flex;
+  gap: 3px;
+  height: 8px;
+  margin: 8px 0 6px;
+}
+
+.split i {
   border-radius: 9px;
+}
+
+.split .n { flex: 50; background: #4F46E5; }
+.split .w { flex: 30; background: #A78BFA; }
+.split .s { flex: 20; background: #22C55E; }
+
+.split-key {
+  display: flex;
+  gap: 10px;
+  font-size: 10px;
+  color: #64748B;
+}
+
+.split-key span::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 4px;
+  border-radius: 50%;
   background: #4F46E5;
 }
 
-.mini .left {
-  color: #16A34A;
-  font-weight: 700;
-}
-
-/* Mini calendar (used in the phone and the Financial Calendar card) */
-.calmini {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
-  margin-top: 6px;
-}
-
-.calmini span {
-  padding: 4px 0;
-  border-radius: 6px;
-  background: #F1F3F9;
-  color: #334155;
-  font-size: 9px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.calmini span.s { background: #4F46E5; color: #fff; }       /* selected day */
-.calmini span.b { box-shadow: inset 0 -3px 0 #7C3AED; }     /* bill due */
-.calmini span.e { color: #E11D48; }                         /* has expenses */
+.split-key span:nth-child(2)::before { background: #A78BFA; }
+.split-key span:nth-child(3)::before { background: #22C55E; }
 
 /* Floating chips around the phone */
 .chip {
@@ -458,6 +469,7 @@ nav.top .wrap {
 
 .chip .neg { color: #E11D48; }
 .chip .vio { color: #7C3AED; }
+.chip .ok { color: #16A34A; }
 
 .c1 { left: 0; top: 18%; }
 .c2 { right: 0; top: 52%; animation-delay: -2s; }
@@ -506,6 +518,10 @@ nav.top .wrap {
 .stat p {
   margin-top: 10px;
   color: var(--muted);
+}
+
+.problem-lead {
+  margin-top: 14px;
 }
 
 .note {
@@ -565,7 +581,7 @@ nav.top .wrap {
   font-size: 15px;
 }
 
-/* Highlighted Financial Calendar card */
+/* Highlighted Smart Receipt Scanner card */
 .f.big {
   display: grid;
   grid-column: span 2;
@@ -601,44 +617,77 @@ nav.top .wrap {
   font-weight: 700;
 }
 
-.bigcal {
-  padding: 12px;
+.receipt {
+  padding: 14px;
   border-radius: 14px;
   background: #F6F7FB;
   color: #0F172A;
+  font-size: 13px;
 }
 
-.bigcal .row {
+.receipt .row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 12px;
+  margin-bottom: 10px;
   font-weight: 700;
 }
 
-.bigcal .spent {
-  color: #E11D48;
+.receipt .time {
+  color: #16A34A;
 }
 
-.bigcal .calmini span {
-  padding: 7px 0;
-  font-size: 11px;
+.receipt dl {
+  display: grid;
+  gap: 6px;
+  margin: 0;
 }
 
-.bigcal .bill {
+.receipt dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.receipt dt {
+  color: #64748B;
+}
+
+.receipt dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.receipt .total {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  padding: 8px 10px;
-  border: 1.5px solid #DDD6FE;
-  border-radius: 10px;
-  background: #fff;
-  font-size: 12px;
+  padding-top: 10px;
+  border-top: 1.5px dashed #CBD5E1;
+  font-family: var(--display);
+  font-size: 18px;
   font-weight: 700;
 }
 
-.bigcal .due {
-  color: #7C3AED;
+.receipt .save {
+  margin-top: 10px;
+  padding: 9px;
+  border-radius: 10px;
+  background: #4F46E5;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ---------- Who it's for ---------- */
+
+.who {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 32px;
 }
 
 /* ---------- How it works ---------- */
@@ -679,10 +728,13 @@ nav.top .wrap {
 
 .plans {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-  max-width: 860px;
   margin-top: 32px;
+}
+
+.plans.single {
+  grid-template-columns: minmax(0, 480px);
 }
 
 .plan {
@@ -699,7 +751,18 @@ nav.top .wrap {
 }
 
 .plan h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
   font-size: 24px;
+}
+
+.annual {
+  margin: -8px 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: .85;
 }
 
 .price {
@@ -963,6 +1026,29 @@ nav.top .wrap {
   margin-top: 14px;
 }
 
+.mv {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.mv div {
+  padding: 16px 18px;
+  border-left: 3px solid var(--brand);
+  border-radius: 0 14px 14px 0;
+  background: var(--bg);
+}
+
+.mv b {
+  font-family: var(--display);
+  color: var(--brand);
+}
+
+.mv p {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
 .members {
   display: grid;
   gap: 12px;
@@ -1093,8 +1179,14 @@ footer .wrap {
   }
 
   .feat,
-  .steps {
+  .steps,
+  .who {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .plans {
+    grid-template-columns: 1fr;
+    max-width: 480px;
   }
 
   .f.big {
@@ -1153,6 +1245,7 @@ footer .wrap {
   .stats,
   .feat,
   .steps,
+  .who,
   .plans {
     grid-template-columns: 1fr;
   }
@@ -1218,14 +1311,8 @@ footer .wrap {
   to   { opacity: 1; }
 }
 
-@keyframes fill-bar {
-  from { width: 0; }
-}
-
-@keyframes pulse-day {
-  0%   { box-shadow: 0 0 0 0 rgba(79, 70, 229, .55); }
-  70%  { box-shadow: 0 0 0 7px rgba(79, 70, 229, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+@keyframes grow {
+  from { transform: scaleX(0); }
 }
 
 @keyframes menu-in {
@@ -1257,13 +1344,14 @@ footer .wrap {
 .c2 { animation-delay: 1.05s, -2s; }
 .c3 { animation-delay: 1.2s, -3.5s; }
 
-.mini .trk i {
-  animation: fill-bar 1.2s 1s cubic-bezier(.2, .7, .2, 1) backwards;
+.split i {
+  transform-origin: left;
+  animation: grow .8s cubic-bezier(.2, .7, .2, 1) backwards;
 }
 
-.calmini span.s {
-  animation: pulse-day 2.4s 1.5s ease-out infinite;
-}
+.split .n { animation-delay: 1s; }
+.split .w { animation-delay: 1.15s; }
+.split .s { animation-delay: 1.3s; }
 
 /* ---------- Scroll reveal (classes added by script.js) ---------- */
 

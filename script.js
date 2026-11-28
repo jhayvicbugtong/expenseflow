@@ -44,7 +44,7 @@
 
   var targets = document.querySelectorAll(
     'main .eyebrow, main .section-title, main .lead, main .note, ' +
-    '.stat, .f, .step, .plan, .m, details, .contact'
+    '.stat, .f, .step, .plan, .m, .mv > div, details, .contact'
   );
 
   // Count a stat's number up from 0, e.g. "11" in <b>11<span>/11</span></b>.
