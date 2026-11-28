@@ -63,7 +63,7 @@ Open `admin.html`, add outputs (no login needed), and they appear on the homepag
 
 ## Good to know
 
-- **Order:** outputs are sorted by date (oldest first) and numbered Activity 1, 2, 3…
+- **Order:** outputs are sorted by date (oldest first); outputs without a date come last, in the order they were added.
 - **Files:** up to 50 MB each. PDFs and images open in the browser. Word/PowerPoint files
   download instead, so export them to PDF first if you want them viewable.
 - **Adding a new member later:** run this in the SQL Editor, then create their login (step 3):

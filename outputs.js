@@ -197,9 +197,7 @@
       card.appendChild(thumbLink);
     }
 
-    var meta = 'Activity ' + number;
-    if (item.activity_date) meta += ' · ' + formatDate(item.activity_date);
-    card.appendChild(el('div', 'output-meta', meta));
+    if (item.activity_date) card.appendChild(el('div', 'output-meta', formatDate(item.activity_date)));
     card.appendChild(el('h3', null, item.title));
     if (item.uploaded_by) card.appendChild(el('div', 'output-by', 'Uploaded by ' + item.uploaded_by));
     if (item.description) card.appendChild(el('p', null, item.description));
