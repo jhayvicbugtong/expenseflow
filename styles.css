@@ -854,6 +854,12 @@ nav.top .wrap {
   font-size: 19px;
 }
 
+.output-by {
+  margin-top: -4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .output p {
   flex: 1;
   color: var(--muted);

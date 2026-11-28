@@ -69,8 +69,12 @@ Open `admin.html`, add outputs (no login needed), and they appear on the homepag
 - **Adding a new member later:** run this in the SQL Editor, then create their login (step 3):
 
   ```sql
-  insert into public.admins (email) values ('new.member@example.com');
+  insert into public.admins (email, name) values ('new.member@example.com', 'Full Name');
   ```
+
+- **Who uploaded what:** each output card shows "Uploaded by …" using the name from the
+  `admins` table. It's filled in automatically from whoever is logged in. Existing projects
+  set up before this feature need to run `supabase/add-uploader.sql` once.
 
 - **Free plan pause:** Supabase pauses free projects after about a week with no activity.
   If the outputs stop loading, log in to Supabase and click **Restore project**.
