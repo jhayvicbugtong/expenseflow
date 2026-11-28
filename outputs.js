@@ -6,6 +6,7 @@
 //                 Data stays on this computer/browser only.
 (function () {
   var IMAGE_EXT = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+  var VIDEO_EXT = ['mp4', 'webm', 'mov', 'm4v'];
   var cfg = window.EXPENSEFLOW_CONFIG || {};
   var useSupabase = !!(cfg.supabaseUrl && cfg.supabaseKey && window.supabase);
 
@@ -182,9 +183,19 @@
     var card = el('article', 'output');
     card.style.animationDelay = Math.min(number - 1, 8) * 70 + 'ms';   // cards appear one after another
     var ext = fileExtension(item.file_name);
-    var viewable = ext === 'pdf' || IMAGE_EXT.indexOf(ext) !== -1;
+    var isVideo = VIDEO_EXT.indexOf(ext) !== -1;
+    var viewable = ext === 'pdf' || isVideo || IMAGE_EXT.indexOf(ext) !== -1;
 
-    if (item.url && IMAGE_EXT.indexOf(ext) !== -1) {
+    if (item.url && isVideo) {
+      // Plays on the card; only the first frame and length load until someone presses play.
+      var video = el('video', 'output-video');
+      video.src = item.url;
+      video.controls = true;
+      video.preload = 'metadata';
+      video.playsInline = true;
+      video.setAttribute('aria-label', item.title);
+      card.appendChild(video);
+    } else if (item.url && IMAGE_EXT.indexOf(ext) !== -1) {
       var thumbLink = el('a', 'output-thumb');
       thumbLink.href = item.url;
       thumbLink.target = '_blank';
@@ -203,11 +214,12 @@
     if (item.description) card.appendChild(el('p', null, item.description));
 
     if (item.url) {
-      var link = el('a', 'btn small outline', ext ? 'View ' + ext.toUpperCase() : 'View file');
+      var label = isVideo ? 'Open video' : (ext ? 'View ' + ext.toUpperCase() : 'View file');
+      var link = el('a', 'btn small outline', label);
       link.href = item.url;
       link.target = '_blank';
       link.rel = 'noopener';
-      // PDFs and images open in a new tab; other files download with their real name.
+      // PDFs, images, and videos open in a new tab; other files download with their real name.
       if (!viewable && item.file_name) link.download = item.file_name;
       card.appendChild(link);
     }

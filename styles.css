@@ -844,6 +844,17 @@ nav.top .wrap {
   object-fit: cover;
 }
 
+/* Video outputs play on the card (vertical ads are letterboxed, not cropped) */
+.output-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 4px;
+  border-radius: 12px;
+  background: #000;
+  object-fit: contain;
+}
+
 .output-meta {
   font-size: 13px;
   font-weight: 700;
